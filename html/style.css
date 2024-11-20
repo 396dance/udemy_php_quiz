@@ -35,7 +35,7 @@ div#section-corrent-answer {
 
 span#correct-answer {
   font-weight: bold;
-  color: #f05959;
+  /* color: #f05959; */
 }
 
 #main {
