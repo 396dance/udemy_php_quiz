@@ -2,23 +2,32 @@
 
 require __DIR__.'../../lib/functions.php';
 
-$id = '5';
+// 入力値を変数に入れる
+$id = escape($_GET['id'] ?? '');
 
+// クイズの問題情報を取得
 $data = fetchById($id);
 
-$question = $data[1];
+if (!$data) {
+  error404();
+}
+$formattedData = generateFormattedData($data);
 
+// htmlspecialcharsをつけない場合、スクリプト処理が実行されてしまう
+// $question = nl2br($data[1]);
+// $question = nl2br(htmlspecialchars($data[1]));
+// $question = $formattedData['question'];
+// $answers =  $formattedData['answers'];
 
-$answers = [
-  'A' => $data[2],
-  'B' => $data[3],
-  'C' => $data[4],
-  'D' => $data[5],
+// $correctAnswer = $formattedData['correctAnswer'];
+// $correctAnswerValue = $answers[$correctAnswer];
+// $explanation = $formattedData['explanation'];
+
+$assignData = [
+  'id' => $formattedData['id'],
+  'question' =>$formattedData['question'],
+  'answers' => $formattedData['answers'],
 ];
 
-$correctAnswer = strtoupper($data[6]);
-$correctAnswerValue = $answers[$correctAnswer];
-$explanation = $data[7];
-
-include __DIR__.'/../template/question.tpl.php';
+loadTemplate('question', $assignData);
 
